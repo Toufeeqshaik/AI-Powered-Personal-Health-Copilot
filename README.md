@@ -1,4 +1,3 @@
-warning: in the working copy of 'README.md', LF will be replaced by CRLF the next time Git touches it
 # 🩺 PulseAI — Personal Health Copilot
 ### HacXLerate 2026 — Altrix Labs HealthTech Challenge
 
