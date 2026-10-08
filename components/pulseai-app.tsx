@@ -2368,6 +2368,7 @@ export default function PulseAIApp() {
   }
 
   const handleConnectScale = async () => {
+    const scanStartedAt = Date.now()
     setIsConnectingScale(true)
     notify('Scanning for nearby BLE Body Scales...')
 
@@ -2419,20 +2420,29 @@ export default function PulseAIApp() {
     if (typeof navigator !== 'undefined' && 'bluetooth' in navigator && (navigator as any).bluetooth) {
       try {
         const navBluetooth = (navigator as any).bluetooth
-        await navBluetooth.requestDevice({
-          filters: [{ services: ['weight_scale'] }],
-          optionalServices: ['battery_service'],
-        })
-        completeScaleSync()
-        return
+        // Some embedded browsers leave requestDevice pending when Bluetooth is
+        // unavailable or permission UI is suppressed. Bound the native prompt
+        // so the demo fallback always completes within the one-second scan UX.
+        const bluetoothDevice = await Promise.race([
+          navBluetooth.requestDevice({
+            filters: [{ services: ['weight_scale'] }],
+            optionalServices: ['battery_service'],
+          }),
+          new Promise<null>((resolve) => window.setTimeout(() => resolve(null), 1000)),
+        ])
+        if (bluetoothDevice) {
+          completeScaleSync()
+          return
+        }
       } catch (err: any) {
         console.log('Bluetooth prompt dismissed or unsupported, falling back to simulator:', err)
       }
     }
 
-    setTimeout(() => {
+    const remainingScanMs = Math.max(0, 1000 - (Date.now() - scanStartedAt))
+    window.setTimeout(() => {
       completeScaleSync()
-    }, 1200)
+    }, remainingScanMs)
   }
 
   const fetchTimeline = useCallback(async () => {
