@@ -1,3 +1,4 @@
+warning: in the working copy of 'README.md', LF will be replaced by CRLF the next time Git touches it
 # 🩺 PulseAI — Personal Health Copilot
 ### HacXLerate 2026 — Altrix Labs HealthTech Challenge
 
@@ -7,6 +8,8 @@
 [![Supabase](https://img.shields.io/badge/Database-Supabase%20PostgreSQL-3ECF8E?logo=supabase)](https://supabase.com/)
 [![ABDM FHIR R4](https://img.shields.io/badge/Standard-ABDM%20FHIR%20R4-orange)](https://abdm.gov.in/)
 [![TypeScript](https://img.shields.io/badge/Language-TypeScript-blue?logo=typescript)](https://www.typescriptlang.org/)
+
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2FToufeeqshaik%2FAI-Powered-Personal-Health-Copilot)
 
 ---
 
@@ -228,3 +231,4 @@ Keep `SUPABASE_SERVICE_ROLE_KEY` and `GEMINI_API_KEY` server-side; do not rename
 
 ## 🛡️ Medical Safety & Ethics Disclaimer
 PulseAI provides general health education and pre-visit organizational tools. **PulseAI does not provide medical diagnoses, alter prescriptions, or replace certified clinical judgment.** In case of emergencies, users are instructed to dial national emergency services (**112 / 108**) immediately.
+
