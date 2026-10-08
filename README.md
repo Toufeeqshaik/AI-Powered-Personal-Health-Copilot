@@ -1,9 +1,9 @@
 # 🩺 PulseAI — Personal Health Copilot
 ### HacXLerate 2026 — Altrix Labs HealthTech Challenge
 
-[![Next.js 16](https://img.shields.io/badge/Next.js-16.3.3-black?logo=next.js)](https://nextjs.org/)
+[![Next.js 16](https://img.shields.io/badge/Next.js-16.4.0-black?logo=next.js)](https://nextjs.org/)
 [![Turbopack](https://img.shields.io/badge/Bundler-Turbopack-blueviolet)](https://turbo.build/)
-[![Google Gemini](https://img.shields.io/badge/AI-Gemini%201.5%20Flash-4285F4?logo=google)](https://ai.google.dev/)
+[![Google Gemini](https://img.shields.io/badge/AI-Gemini%203.8%20Flash-4285F4?logo=google)](https://ai.google.dev/)
 [![Supabase](https://img.shields.io/badge/Database-Supabase%20PostgreSQL-3ECF8E?logo=supabase)](https://supabase.com/)
 [![ABDM FHIR R4](https://img.shields.io/badge/Standard-ABDM%20FHIR%20R4-orange)](https://abdm.gov.in/)
 [![TypeScript](https://img.shields.io/badge/Language-TypeScript-blue?logo=typescript)](https://www.typescriptlang.org/)
@@ -33,8 +33,6 @@ With continuous wearable synchronization, intelligent multimodal visual report i
 ## 🏛️ System Architecture
 
 ```
-
-See [ARCHITECTURE.md](ARCHITECTURE.md) for the architecture diagram and [DEMO_SCRIPT.md](DEMO_SCRIPT.md) for a short judging walkthrough. This is a challenge prototype: device readings are simulated, ABHA is a mock identifier, and the app is not connected to an ABDM gateway or a clinical system.
                                   +------------------------------------+
                                   |         PATIENT / CLIENT           |
                                   |   Web Browser / Mobile PWA View    |
@@ -66,6 +64,8 @@ See [ARCHITECTURE.md](ARCHITECTURE.md) for the architecture diagram and [DEMO_SC
 | (Private Bucket)| | (JSONB Records)  | | (Multimodal OCR)   |       | en, hi, te, ta        |
 +------------------+ +------------------+ +--------------------+       +-----------------------+
 ```
+
+See [ARCHITECTURE.md](ARCHITECTURE.md) for the architecture diagram and [DEMO_SCRIPT.md](DEMO_SCRIPT.md) for a short judging walkthrough. This is a challenge prototype: device readings are simulated, ABHA is a mock identifier, and the app is not connected to an ABDM gateway or a clinical system.
 
 ---
 
@@ -228,4 +228,3 @@ Keep `SUPABASE_SERVICE_ROLE_KEY` and `GEMINI_API_KEY` server-side; do not rename
 
 ## 🛡️ Medical Safety & Ethics Disclaimer
 PulseAI provides general health education and pre-visit organizational tools. **PulseAI does not provide medical diagnoses, alter prescriptions, or replace certified clinical judgment.** In case of emergencies, users are instructed to dial national emergency services (**112 / 108**) immediately.
-
