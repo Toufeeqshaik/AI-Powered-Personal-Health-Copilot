@@ -2690,7 +2690,7 @@ export default function PulseAIApp() {
           <button onClick={() => setToast('')} aria-label="Dismiss notification"><X size={15} /></button>
         </div>
       )}
-      <AiChatWidget language={language} />
+      {active !== 'Copilot Chat' && <AiChatWidget language={language} />}
     </div>
   )
 }

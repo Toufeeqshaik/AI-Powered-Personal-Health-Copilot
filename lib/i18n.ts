@@ -13,6 +13,16 @@ export const TRANSLATIONS: Record<Language, Record<string, string>> = {
     'nav.prep': 'Pre-Visit Prep',
     'nav.settings': 'Settings',
 
+    // Copilot chat
+    'chat.eyebrow': 'YOUR PRIVATE HEALTH COPILOT',
+    'chat.title': 'Ask a health question',
+    'chat.desc': 'Get clear, general health information and help understanding your records.',
+    'chat.attach': 'Attach files',
+    'chat.placeholder': 'Ask PulseAI a health question…',
+    'chat.speak': 'Speak',
+    'chat.listening': 'Listening…',
+    'chat.send': 'Send message',
+
     // Workspace
     'workspace.personal': 'Personal workspace',
     'workspace.abha': 'Linked ABHA ID: 91-8273-4920-1124',
@@ -213,6 +223,16 @@ export const TRANSLATIONS: Record<Language, Record<string, string>> = {
     'nav.appointments': 'अपॉइंटमेंट्स',
     'nav.prep': 'विजिट पूर्व तैयारी',
     'nav.settings': 'सेटिंग्स',
+
+    // Copilot chat
+    'chat.eyebrow': 'आपका निजी स्वास्थ्य सहायक',
+    'chat.title': 'स्वास्थ्य से जुड़ा सवाल पूछें',
+    'chat.desc': 'स्वास्थ्य की सामान्य जानकारी और अपनी रिपोर्ट समझने में मदद पाएँ।',
+    'chat.attach': 'फ़ाइल जोड़ें',
+    'chat.placeholder': 'PulseAI से स्वास्थ्य का सवाल पूछें…',
+    'chat.speak': 'बोलें',
+    'chat.listening': 'सुन रहा है…',
+    'chat.send': 'संदेश भेजें',
 
     // Workspace
     'workspace.personal': 'व्यक्तिगत कार्यक्षेत्र',
@@ -415,6 +435,16 @@ export const TRANSLATIONS: Record<Language, Record<string, string>> = {
     'nav.prep': 'సందర్శన సన్నాహం',
     'nav.settings': 'సెట్టింగ్‌లు',
 
+    // Copilot chat
+    'chat.eyebrow': 'మీ వ్యక్తిగత ఆరోగ్య సహాయకుడు',
+    'chat.title': 'ఆరోగ్య ప్రశ్న అడగండి',
+    'chat.desc': 'సాధారణ ఆరోగ్య సమాచారం మరియు మీ రికార్డులను అర్థం చేసుకోవడంలో సహాయం పొందండి.',
+    'chat.attach': 'ఫైళ్లను జోడించండి',
+    'chat.placeholder': 'PulseAIని ఆరోగ్య ప్రశ్న అడగండి…',
+    'chat.speak': 'మాట్లాడండి',
+    'chat.listening': 'వింటోంది…',
+    'chat.send': 'సందేశం పంపండి',
+
     // Workspace
     'workspace.personal': 'వ్యక్తిగత కార్యస్థలం',
     'workspace.abha': 'లింక్ చేయబడిన ABHA ID: 91-8273-4920-1124',
@@ -615,6 +645,16 @@ export const TRANSLATIONS: Record<Language, Record<string, string>> = {
     'nav.appointments': 'சந்திப்புகள்',
     'nav.prep': 'முன் வருகை தயார்படுத்துதல்',
     'nav.settings': 'அமைப்புகள்',
+
+    // Copilot chat
+    'chat.eyebrow': 'உங்கள் தனிப்பட்ட சுகாதார உதவியாளர்',
+    'chat.title': 'சுகாதாரக் கேள்வியைக் கேளுங்கள்',
+    'chat.desc': 'பொதுவான சுகாதாரத் தகவலையும் உங்கள் பதிவுகளைப் புரிந்துகொள்ள உதவியையும் பெறுங்கள்.',
+    'chat.attach': 'கோப்புகளை இணைக்கவும்',
+    'chat.placeholder': 'PulseAI-யிடம் சுகாதாரக் கேள்வியைக் கேளுங்கள்…',
+    'chat.speak': 'பேசுங்கள்',
+    'chat.listening': 'கேட்கிறது…',
+    'chat.send': 'செய்தியை அனுப்பவும்',
 
     // Workspace
     'workspace.personal': 'தனிப்பட்ட பணியிடம்',
