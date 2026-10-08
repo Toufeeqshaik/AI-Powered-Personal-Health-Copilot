@@ -1,4 +1,5 @@
 import { GoogleGenerativeAI } from '@google/generative-ai'
+import { checkRateLimit } from '@/lib/apiSecurity'
 
 export const maxDuration = 30
 
@@ -27,6 +28,14 @@ const MEDICAL_TRANSLATIONS: Record<string, Record<string, string>> = {
 }
 
 export async function POST(request: Request) {
+  const rate = checkRateLimit(request)
+  if (!rate.allowed) {
+    return Response.json({ error: 'Too many requests. Please try again shortly.' }, {
+      status: 429,
+      headers: { 'Retry-After': String(rate.retryAfter) },
+    })
+  }
+
   let body: any
   try {
     body = await request.json()
@@ -38,6 +47,10 @@ export async function POST(request: Request) {
 
   if (!text || typeof text !== 'string') {
     return Response.json({ error: 'Field "text" is required.' }, { status: 400 })
+  }
+
+  if (text.length > 20_000) {
+    return Response.json({ error: 'Text must be 20,000 characters or fewer.' }, { status: 413 })
   }
 
   if (!['en', 'hi', 'te', 'ta'].includes(targetLanguage)) {

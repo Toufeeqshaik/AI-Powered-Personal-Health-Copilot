@@ -8,6 +8,7 @@ __v0_jsx-dev-runtime.ts
 
 # Environment variables
 .env*
+!.env.example
 
 # Common ignores
 node_modules

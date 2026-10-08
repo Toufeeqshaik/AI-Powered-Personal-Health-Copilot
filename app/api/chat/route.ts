@@ -1,5 +1,6 @@
 import { GoogleGenerativeAI } from '@google/generative-ai'
 import { getOfflineHealthReply, isEmergencyMessage, type OfflineLanguage } from '@/lib/offlineHealthReply'
+import { checkRateLimit, hasBodyTooLarge } from '@/lib/apiSecurity'
 
 export const maxDuration = 30
 
@@ -128,6 +129,18 @@ Never issue a binding clinical diagnosis or change prescription doses. Always em
 // Route Handler: POST /api/chat
 // ---------------------------------------------------------------------------
 export async function POST(request: Request) {
+  const rate = checkRateLimit(request)
+  if (!rate.allowed) {
+    return Response.json({ error: 'Too many requests. Please try again shortly.' }, {
+      status: 429,
+      headers: { 'Retry-After': String(rate.retryAfter) },
+    })
+  }
+
+  if (hasBodyTooLarge(request, MAX_REQUEST_BYTES + 512 * 1024)) {
+    return Response.json({ error: 'Request is too large. Attachments must be 3 MB or smaller.' }, { status: 413 })
+  }
+
   let body: any
   try {
     body = await request.json()

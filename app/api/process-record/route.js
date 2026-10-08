@@ -1,5 +1,6 @@
 import { GoogleGenerativeAI } from '@google/generative-ai'
-import { supabaseServer } from '@/lib/supabaseClient'
+import { supabaseServer } from '@/lib/supabaseServer'
+import { checkRateLimit, hasBodyTooLarge } from '@/lib/apiSecurity'
 
 export const maxDuration = 60
 export const dynamic = 'force-dynamic'
@@ -23,6 +24,18 @@ function safeParseJson(text) {
 
 export async function POST(request) {
   try {
+    const rate = checkRateLimit(request, 20)
+    if (!rate.allowed) {
+      return Response.json({ error: 'Too many uploads. Please try again shortly.' }, {
+        status: 429,
+        headers: { 'Retry-After': String(rate.retryAfter) },
+      })
+    }
+
+    if (hasBodyTooLarge(request, 5 * 1024 * 1024)) {
+      return Response.json({ error: 'The upload request must be 5 MB or smaller.' }, { status: 413 })
+    }
+
     const formData = await request.formData()
     const file = formData.get('file')
     const mockAbhaId = formData.get('mockAbhaId')?.toString() || '91-8273-4920-1124'
@@ -45,7 +58,7 @@ export async function POST(request) {
       return Response.json({ error: 'Choose English, Hindi, Telugu, or Tamil.' }, { status: 400 })
     }
 
-    if (!process.env.SUPABASE_SERVICE_ROLE_KEY || !process.env.NEXT_PUBLIC_SUPABASE_URL) {
+    if (!process.env.SUPABASE_SERVICE_ROLE_KEY || !process.env.NEXT_PUBLIC_SUPABASE_URL || !supabaseServer) {
       return Response.json({ error: 'Record storage is unavailable because Supabase is not configured.' }, { status: 503 })
     }
 
@@ -67,7 +80,7 @@ export async function POST(request) {
 
     if (storageError) {
       console.error('Supabase storage upload error:', storageError)
-      return Response.json({ error: `Storage upload failed: ${storageError.message}` }, { status: 500 })
+      return Response.json({ error: 'Storage upload failed. Please try again.' }, { status: 500 })
     }
 
     // Medical documents live in a private bucket; return a time-limited view link.
@@ -203,7 +216,7 @@ You must respond with STRICT JSON adhering to this exact schema:
     if (insertError) {
       await supabaseServer.storage.from('medical_records').remove([storagePath])
       console.error('Supabase health_timeline insert error:', insertError)
-      return Response.json({ error: `Database insert failed: ${insertError.message}` }, { status: 500 })
+      return Response.json({ error: 'Database insert failed. Please try again.' }, { status: 500 })
     }
 
     // 4. Return saved entry to frontend
@@ -215,6 +228,6 @@ You must respond with STRICT JSON adhering to this exact schema:
     })
   } catch (error) {
     console.error('Unexpected error processing record:', error)
-    return Response.json({ error: error.message || 'An unexpected error occurred processing your record.' }, { status: 500 })
+    return Response.json({ error: 'An unexpected error occurred processing your record.' }, { status: 500 })
   }
 }

@@ -1,6 +1,8 @@
 # 🩺 PulseAI — Personal Health Copilot
 ### HacXLerate 2026 — Altrix Labs HealthTech Challenge
 
+> For judging and handoff, see [`HACKATHON_SUBMISSION.md`](./HACKATHON_SUBMISSION.md), [`SECURITY.md`](./SECURITY.md), [`DEPLOYMENT_RUNBOOK.md`](./DEPLOYMENT_RUNBOOK.md), and [`COST_ESTIMATE_INR.md`](./COST_ESTIMATE_INR.md).
+
 [![Next.js 16](https://img.shields.io/badge/Next.js-16.4.0-black?logo=next.js)](https://nextjs.org/)
 [![Turbopack](https://img.shields.io/badge/Bundler-Turbopack-blueviolet)](https://turbo.build/)
 [![Google Gemini](https://img.shields.io/badge/AI-Gemini%203.8%20Flash-4285F4?logo=google)](https://ai.google.dev/)
