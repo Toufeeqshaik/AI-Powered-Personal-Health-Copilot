@@ -125,6 +125,69 @@ Never issue a binding clinical diagnosis or change prescription doses. Always em
   return null
 }
 
+// BazaarLink is an OpenAI-compatible gateway. Keep its credential server-side;
+// this text-only fallback is used only after Gemini has failed or is unconfigured.
+async function callBazaarLink(prompt: string, history: { role: string; text: string }[], language: OfflineLanguage) {
+  const apiKey = process.env.BAZAARLINK_API_KEY
+  if (!apiKey) return null
+
+  const languageNames: Record<OfflineLanguage, string> = { en: 'English', hi: 'Hindi', te: 'Telugu', ta: 'Tamil' }
+  try {
+    const response = await fetch('https://api.bazaarlink.ai/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${apiKey}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        model: process.env.BAZAARLINK_MODEL || 'qwen/qwen3.7-flash:free',
+        messages: [
+          { role: 'system', content: `You are PulseAI, a careful health education assistant. Be compassionate and plain-spoken. Never diagnose or change medication doses. Recommend a qualified clinician for personal medical decisions. Reply in ${languageNames[language]}.` },
+          ...history.map((item) => ({ role: item.role === 'user' ? 'user' : 'assistant', content: item.text })),
+          { role: 'user', content: prompt },
+        ],
+      }),
+      signal: AbortSignal.timeout(8_000),
+      cache: 'no-store',
+    })
+    if (!response.ok) return null
+    const data = await response.json()
+    const text = data?.choices?.[0]?.message?.content
+    return typeof text === 'string' && text.trim() ? text.trim() : null
+  } catch {
+    return null
+  }
+}
+
+async function callGroq(prompt: string, history: { role: string; text: string }[], language: OfflineLanguage) {
+  const apiKey = process.env.GROQ_API_KEY
+  if (!apiKey) return null
+
+  const languageNames: Record<OfflineLanguage, string> = { en: 'English', hi: 'Hindi', te: 'Telugu', ta: 'Tamil' }
+  try {
+    const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: process.env.GROQ_MODEL || 'openai/gpt-oss-20b',
+        messages: [
+          { role: 'system', content: `You are PulseAI, a careful health education assistant. Be compassionate and plain-spoken. Never diagnose or change medication doses. Recommend a qualified clinician for personal medical decisions. Reply in ${languageNames[language]}.` },
+          ...history.map((item) => ({ role: item.role === 'user' ? 'user' : 'assistant', content: item.text })),
+          { role: 'user', content: prompt },
+        ],
+      }),
+      signal: AbortSignal.timeout(8_000),
+      cache: 'no-store',
+    })
+    if (!response.ok) return null
+    const data = await response.json()
+    const text = data?.choices?.[0]?.message?.content
+    return typeof text === 'string' && text.trim() ? text.trim() : null
+  } catch {
+    return null
+  }
+}
+
 // ---------------------------------------------------------------------------
 // Route Handler: POST /api/chat
 // ---------------------------------------------------------------------------
@@ -242,6 +305,17 @@ export async function POST(request: Request) {
       message: geminiResponse,
       role: 'assistant',
     })
+  }
+
+  // Gateway fallbacks are text-only; attachments continue to the conservative
+  // offline response after Gemini's multimodal path fails.
+  const gatewayResponse = imagePayload ? null : await callBazaarLink(userText, history, language)
+  if (gatewayResponse) {
+    return Response.json({ reply: gatewayResponse, text: gatewayResponse, message: gatewayResponse, role: 'assistant' })
+  }
+  const groqResponse = imagePayload ? null : await callGroq(userText, history, language)
+  if (groqResponse) {
+    return Response.json({ reply: groqResponse, text: groqResponse, message: groqResponse, role: 'assistant' })
   }
 
   // 5. Intelligent Fallback Strategy
