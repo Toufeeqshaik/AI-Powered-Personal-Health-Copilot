@@ -71,6 +71,11 @@ With continuous wearable synchronization, intelligent multimodal visual report i
 
 See [ARCHITECTURE.md](ARCHITECTURE.md) for the architecture diagram and [DEMO_SCRIPT.md](DEMO_SCRIPT.md) for a short judging walkthrough. This is a challenge prototype: device readings are simulated, ABHA is a mock identifier, and the app is not connected to an ABDM gateway or a clinical system.
 
+## 📽️ Project presentation
+
+- [Download the PulseAI HacXLerate 2026 presentation from GitHub](public/docs/PulseAI_HacXLerate_2026_CodeReds_with_screenshots.pptx)
+- [Download the presentation from the live app](https://ai-powered-personal-health-copilot-sigma.vercel.app/docs/PulseAI_HacXLerate_2026_CodeReds_with_screenshots.pptx)
+
 ---
 
 ## 📡 API Specification Table
